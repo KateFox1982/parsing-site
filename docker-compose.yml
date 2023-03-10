@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  go-app:
+    container_name: go-app
+    image: francescoxx/go-app
+    build: .
+    environment:
+      DATABASE_URL: "host=localhost user=fox password=123 dbname=fix sslmode=disable"
+    #    ports:
+    #      - "8000:8000"
+    depends_on:
+      - localhost
+  localhost:
+    container_name: localhost
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: fox
+      POSTGRES_DB: fix
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: { }
